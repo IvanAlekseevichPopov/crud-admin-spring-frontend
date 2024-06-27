@@ -1,4 +1,4 @@
-# giant-pears-dream
+# sonata-admin-spring-frontend
 
 <div align="center" style="margin: 30px;">
     <a href="https://refine.dev">
@@ -15,12 +15,12 @@ A React Framework for building internal tools, admin panels, dashboards & B2B ap
 
 Refine's hooks and components simplifies the development process and eliminates the repetitive tasks by providing industry-standard solutions for crucial aspects of a project, including authentication, access control, routing, networking, state management, and i18n.
 
-## Available Scripts
+## Available Scripts(execute in docker)
 
 ### Running the development server.
 
 ```bash
-    npm run dev
+    npm run dev -- --host
 ```
 
 ### Building for production.
