@@ -1,131 +1,184 @@
-import { GitHubBanner, Refine } from "@refinedev/core";
-import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
-import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
+import {
+    Refine,
+    GitHubBanner,
+    WelcomePage,
+    Authenticated,
+} from '@refinedev/core';
+import {DevtoolsPanel, DevtoolsProvider} from "@refinedev/devtools";
+import {RefineKbar, RefineKbarProvider} from "@refinedev/kbar";
 
 import {
-  ErrorComponent,
-  notificationProvider,
-  RefineSnackbarProvider,
-  ThemedLayoutV2,
-  ThemedTitleV2,
-} from "@refinedev/mui";
+    AuthPage, DeleteButton, EditButton, ErrorComponent
+    , notificationProvider
+    , RefineSnackbarProvider, ShowButton
+    , ThemedLayoutV2
+} from '@refinedev/mui';
 
+import dataProvider from "@refinedev/simple-rest";
 import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
+import {BrowserRouter, Route, Routes, Outlet} from "react-router-dom";
 import routerBindings, {
-  DocumentTitleHandler,
-  NavigateToResource,
-  UnsavedChangesNotifier,
+    NavigateToResource,
+    CatchAllNavigate,
+    UnsavedChangesNotifier,
+    DocumentTitleHandler
 } from "@refinedev/react-router-v6";
-import dataProvider from "@refinedev/simple-rest";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
-import { AppIcon } from "./components/app-icon";
-import { Header } from "./components/header";
-import { ColorModeContextProvider } from "./contexts/color-mode";
-import {
-  BlogPostCreate,
-  BlogPostEdit,
-  BlogPostList,
-  BlogPostShow,
-} from "./pages/blog-posts";
-import {
-  CategoryCreate,
-  CategoryEdit,
-  CategoryList,
-  CategoryShow,
-} from "./pages/categories";
+import {BlogPostList, BlogPostCreate, BlogPostEdit, BlogPostShow} from "./pages/blog-posts";
+import {CategoryList, CategoryCreate, CategoryEdit, CategoryShow} from "./pages/categories";
+import {ColorModeContextProvider} from "./contexts/color-mode";
+import {Header} from "./components/header";
+import {Login} from "./pages/login";
+import {Register} from "./pages/register";
+import {ForgotPassword} from "./pages/forgotPassword";
+import {authProvider} from "./authProvider";
+import React from "react";
+
 
 function App() {
-  return (
-    <BrowserRouter>
-      <GitHubBanner />
-      <RefineKbarProvider>
-        <ColorModeContextProvider>
-          <CssBaseline />
-          <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
-          <RefineSnackbarProvider>
-            <DevtoolsProvider>
-              <Refine
-                dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-                notificationProvider={notificationProvider}
-                routerProvider={routerBindings}
-                resources={[
-                  {
-                    name: "blog_posts",
-                    list: "/blog-posts",
-                    create: "/blog-posts/create",
-                    edit: "/blog-posts/edit/:id",
-                    show: "/blog-posts/show/:id",
-                    meta: {
-                      canDelete: true,
-                    },
-                  },
-                  {
-                    name: "categories",
-                    list: "/categories",
-                    create: "/categories/create",
-                    edit: "/categories/edit/:id",
-                    show: "/categories/show/:id",
-                    meta: {
-                      canDelete: true,
-                    },
-                  },
-                ]}
-                options={{
-                  syncWithLocation: true,
-                  warnWhenUnsavedChanges: true,
-                  useNewQueryKeys: true,
-                  projectId: "NQwmNC-XbVivj-V8DgqO",
-                }}
-              >
-                <Routes>
-                  <Route
-                    element={
-                      <ThemedLayoutV2
-                        Header={() => <Header sticky />}
-                        Title={({ collapsed }) => (
-                          <ThemedTitleV2
-                            collapsed={collapsed}
-                            text="Refine Project"
-                            icon={<AppIcon />}
-                          />
-                        )}
-                      >
-                        <Outlet />
-                      </ThemedLayoutV2>
-                    }
-                  >
-                    <Route
-                      index
-                      element={<NavigateToResource resource="blog_posts" />}
-                    />
-                    <Route path="/blog-posts">
-                      <Route index element={<BlogPostList />} />
-                      <Route path="create" element={<BlogPostCreate />} />
-                      <Route path="edit/:id" element={<BlogPostEdit />} />
-                      <Route path="show/:id" element={<BlogPostShow />} />
-                    </Route>
-                    <Route path="/categories">
-                      <Route index element={<CategoryList />} />
-                      <Route path="create" element={<CategoryCreate />} />
-                      <Route path="edit/:id" element={<CategoryEdit />} />
-                      <Route path="show/:id" element={<CategoryShow />} />
-                    </Route>
-                    <Route path="*" element={<ErrorComponent />} />
-                  </Route>
-                </Routes>
+    let catList = [
+        {
+            field: "id",
+            headerName: "ID",
+            type: "number",
+            minWidth: 50,
+        },
+        {
+            field: "title",
+            flex: 1,
+            headerName: "Title",
+            minWidth: 200,
+        },
+        {
+            field: "actions",
+            headerName: "Actions",
+            sortable: false,
+            renderCell: function render({ row }) {
+                return (
+                    <>
+                        <EditButton hideText recordItemId={row.id} />
+                        <ShowButton hideText recordItemId={row.id} />
+                        <DeleteButton hideText recordItemId={row.id} />
+                    </>
+                );
+            },
+            align: "center",
+            headerAlign: "center",
+            minWidth: 80,
+        },
+    ];
 
-                <RefineKbar />
-                <UnsavedChangesNotifier />
-                <DocumentTitleHandler />
-              </Refine>
-              <DevtoolsPanel />
-            </DevtoolsProvider>
-          </RefineSnackbarProvider>
-        </ColorModeContextProvider>
-      </RefineKbarProvider>
-    </BrowserRouter>
-  );
-}
+    let schemaResponse = {
+        baseUrl: "https://api.fake-rest.refine.dev",
+        loginPath: "/login",
+        resources: [
+            {
+                name: "blog_posts",
+                list: "/blog-posts",
+                create: "/blog-posts/create",
+                edit: "/blog-posts/edit/:id",
+                show: "/blog-posts/show/:id",
+                meta: {
+                    canDelete: true,
+                },
+            },
+            {
+                name: "categories",
+                list: "/categories",
+                create: "/categories/create",
+                edit: "/categories/edit/:id",
+                show: "/categories/show/:id",
+                meta: {
+                    canDelete: true,
+                },
+            },
+        ],
+        options: {
+            syncWithLocation: true,
+            warnWhenUnsavedChanges: true,
+            useNewQueryKeys: true,
+            projectId: "n0XM4g-TMwVLK-RYjUD0",
+
+        }
+
+    }
+
+
+    return (
+        <BrowserRouter>
+            <GitHubBanner/>
+            <RefineKbarProvider>
+                <ColorModeContextProvider>
+                    <CssBaseline/>
+                    <GlobalStyles styles={{html: {WebkitFontSmoothing: "auto"}}}/>
+                    <RefineSnackbarProvider>
+                        <DevtoolsProvider>
+                            <Refine dataProvider={dataProvider(schemaResponse.baseUrl)}
+                                    notificationProvider={notificationProvider}
+                                    routerProvider={routerBindings}
+                                    authProvider={authProvider}
+                                    resources={schemaResponse.resources}
+                                    options={schemaResponse.options}
+                            >
+                                <Routes>
+                                    <Route
+                                        element={
+                                            <Authenticated
+                                                key="authenticated-inner"
+                                                fallback={<CatchAllNavigate to={schemaResponse.loginPath}/>}
+                                            >
+                                                <ThemedLayoutV2
+                                                    Header={() => <Header sticky/>}
+                                                >
+                                                    <Outlet/>
+                                                </ThemedLayoutV2>
+                                            </Authenticated>
+                                        }
+                                    >
+                                        <Route index element={
+                                            <NavigateToResource resource="blog_posts"/>
+                                        }/>
+                                        <Route path="/blog-posts">
+                                            <Route index element={<BlogPostList/>}/>
+                                            <Route path="create" element={<BlogPostCreate/>}/>
+                                            <Route path="edit/:id" element={<BlogPostEdit/>}/>
+                                            <Route path="show/:id" element={<BlogPostShow/>}/>
+                                        </Route>
+                                        <Route path="/categories">
+                                            <Route index element={<CategoryList fields={catList}/>}/>
+                                            <Route path="create" element={<CategoryCreate/>}/>
+                                            <Route path="edit/:id" element={<CategoryEdit/>}/>
+                                            <Route path="show/:id" element={<CategoryShow/>}/>
+                                        </Route>
+                                        <Route path="*" element={<ErrorComponent/>}/>
+                                    </Route>
+                                    <Route
+                                        element={
+                                            <Authenticated key="authenticated-outer" fallback={<Outlet/>}>
+                                                <NavigateToResource/>
+                                            </Authenticated>
+                                        }
+                                    >
+                                        <Route path="/login" element={<Login/>}/>
+                                        <Route path="/register" element={<Register/>}/>
+                                        <Route path="/forgot-password" element={<ForgotPassword/>}/>
+                                    </Route>
+                                </Routes>
+
+
+                                <RefineKbar/>
+                                <UnsavedChangesNotifier/>
+                                <DocumentTitleHandler/>
+                            </Refine>
+                            <DevtoolsPanel/>
+                        </DevtoolsProvider>
+                    </RefineSnackbarProvider>
+
+
+                </ColorModeContextProvider>
+            </RefineKbarProvider>
+        </BrowserRouter>
+    );
+};
 
 export default App;

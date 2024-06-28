@@ -35,3 +35,5 @@ COPY --from=builder /app/refine/dist ./
 USER refine
 
 CMD ["serve"]
+
+TODO разобраться, где проект и выпилить лишнее. giant-pears-dream, my-app, src
