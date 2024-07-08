@@ -1,6 +1,6 @@
 # sonata-admin-spring-frontend
 
-<div align="center" style="margin: 30px;">
+<div style="margin: 30px;">
     <a href="https://refine.dev">
     <img alt="refine logo" src="https://refine.ams3.cdn.digitaloceanspaces.com/readme/refine-readme-banner.png">
     </a>
@@ -16,6 +16,12 @@ A React Framework for building internal tools, admin panels, dashboards & B2B ap
 Refine's hooks and components simplifies the development process and eliminates the repetitive tasks by providing industry-standard solutions for crucial aspects of a project, including authentication, access control, routing, networking, state management, and i18n.
 
 ## Available Scripts(execute in docker)
+
+### Install vendors.
+
+```bash
+    npm install
+```
 
 ### Running the development server.
 
