@@ -33,10 +33,16 @@ import {Register} from "./pages/register";
 import {ForgotPassword} from "./pages/forgotPassword";
 import {authProvider} from "./authProvider";
 import React from "react";
+import AppConfig from "./appConfig"
+import Entity from "./entity"
+import {ResourceProps} from "@refinedev/core/src/contexts/resource/types";
 
+function App({config}) {
+    // console.log(config);
+    const entities = config.entities;
+    // console.log(entities);
 
-function App() {
-    let catList = [
+    let catList: object[] = [
         {
             field: "id",
             headerName: "ID",
@@ -53,12 +59,12 @@ function App() {
             field: "actions",
             headerName: "Actions",
             sortable: false,
-            renderCell: function render({ row }) {
+            renderCell: function render({row}) {
                 return (
                     <>
-                        <EditButton hideText recordItemId={row.id} />
-                        <ShowButton hideText recordItemId={row.id} />
-                        <DeleteButton hideText recordItemId={row.id} />
+                        <EditButton hideText recordItemId={row.id}/>
+                        <ShowButton hideText recordItemId={row.id}/>
+                        <DeleteButton hideText recordItemId={row.id}/>
                     </>
                 );
             },
@@ -68,31 +74,26 @@ function App() {
         },
     ];
 
+    let resources = [];
+    entities.forEach((entity: Entity) => {
+        console.log(entity.order, entity.name);
+
+        resources.push({
+            name: entity.name,
+            list: "/" + entity.name,
+            create: "/" + entity.name + "/create",
+            edit: "/" + entity.name + "/edit/:id",
+            show: "/" + entity.name + "/show/:id",
+            meta: {
+                canDelete: true,
+            },
+        })
+    })
+
     let schemaResponse = {
         baseUrl: "https://api.fake-rest.refine.dev",
         loginPath: "/login",
-        resources: [
-            {
-                name: "blog_posts",
-                list: "/blog-posts",
-                create: "/blog-posts/create",
-                edit: "/blog-posts/edit/:id",
-                show: "/blog-posts/show/:id",
-                meta: {
-                    canDelete: true,
-                },
-            },
-            {
-                name: "categories",
-                list: "/categories",
-                create: "/categories/create",
-                edit: "/categories/edit/:id",
-                show: "/categories/show/:id",
-                meta: {
-                    canDelete: true,
-                },
-            },
-        ],
+        resources: resources,
         options: {
             syncWithLocation: true,
             warnWhenUnsavedChanges: true,
@@ -126,7 +127,7 @@ function App() {
                                             <Authenticated
                                                 key="authenticated-inner"
                                                 fallback={<CatchAllNavigate to={schemaResponse.loginPath}/>}
-                                            >
+                                            >WelcomePage
                                                 <ThemedLayoutV2
                                                     Header={() => <Header sticky/>}
                                                 >
@@ -135,9 +136,11 @@ function App() {
                                             </Authenticated>
                                         }
                                     >
-                                        <Route index element={
-                                            <NavigateToResource resource="blog_posts"/>
-                                        }/>
+                                        <Route index element={<WelcomePage/>}/>
+
+                                        {/*<Route index element={*/}
+                                        {/*    <NavigateToResource resource="blog_posts"/>*/}
+                                        {/*}/>*/}
                                         <Route path="/blog-posts">
                                             <Route index element={<BlogPostList/>}/>
                                             <Route path="create" element={<BlogPostCreate/>}/>
