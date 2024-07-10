@@ -104,6 +104,19 @@ function App({config}) {
 
     }
 
+    let routes = [];
+    for (let i in schemaResponse.resources) {
+         let res = schemaResponse.resources[i];
+         console.log(schemaResponse.resources[i]); // prints elements: 10, 20, 30, 40
+         routes.push(
+                     <Route path={res.list}>
+                         <Route index element={<BlogPostList/>}/>
+                         <Route path="create" element={<BlogPostCreate/>}/>
+                         <Route path="edit/:id" element={<BlogPostEdit/>}/>
+                         <Route path="show/:id" element={<BlogPostShow/>}/>
+                     </Route>
+         );
+    }
 
     return (
         <BrowserRouter>
@@ -138,9 +151,12 @@ function App({config}) {
                                     >
                                         <Route index element={<WelcomePage/>}/>
 
+
+                                        {routes}
                                         {/*<Route index element={*/}
                                         {/*    <NavigateToResource resource="blog_posts"/>*/}
                                         {/*}/>*/}
+
                                         <Route path="/blog-posts">
                                             <Route index element={<BlogPostList/>}/>
                                             <Route path="create" element={<BlogPostCreate/>}/>
