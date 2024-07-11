@@ -19,10 +19,33 @@ cfg = {
         {
             order: 1,
             name: "user",
+            path: "users",
+            fieldsConfiguration: [
+                {
+                    fieldName: "id",
+                    headerName: "ID",
+                    type: "number",
+                    minWidth: 50,
+                },
+                {
+                    fieldName: "firstName",
+                    headerName: "First name",
+                    type: "string",
+                    minWidth: 200,
+                    // flex: 1
+                }
+            ]
         },
         {
             order: 2,
             name: "not-orm-example-entity",
+            path: "blog-posts",
+            fieldsConfiguration: [
+                {
+                    fieldName: "id",
+                    type: "number",
+                }
+            ]
         }
     ]
 }
