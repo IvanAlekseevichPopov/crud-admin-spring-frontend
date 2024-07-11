@@ -33,7 +33,7 @@ import {Login} from "./pages/login";
 import {Register} from "./pages/register";
 import {ForgotPassword} from "./pages/forgotPassword";
 import {authProvider} from "./authProvider";
-import React from "react";
+import React, {ReactNode} from "react";
 import AppConfig from "./appConfig"
 import Entity from "./entity"
 import {ResourceProps} from "@refinedev/core/src/contexts/resource/types";
@@ -75,8 +75,8 @@ function App({config}) {
         },
     ];
 
-    let resources = [];
-    let routes = [];
+    let resources: Array<ResourceProps> = [];
+    let routes: Array<ReactNode> = [];
     entities.forEach((entity: Entity, i: number) => {
         console.log(entity.order, entity.name);
 

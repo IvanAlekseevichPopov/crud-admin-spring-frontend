@@ -22,13 +22,13 @@ cfg = {
             path: "users",
             fieldsConfiguration: [
                 {
-                    fieldName: "id",
+                    field: "id",
                     headerName: "ID",
                     type: "number",
                     minWidth: 50,
                 },
                 {
-                    fieldName: "firstName",
+                    field: "firstName",
                     headerName: "First name",
                     type: "string",
                     minWidth: 200,
@@ -42,7 +42,7 @@ cfg = {
             path: "blog-posts",
             fieldsConfiguration: [
                 {
-                    fieldName: "id",
+                    field: "id",
                     type: "number",
                 }
             ]

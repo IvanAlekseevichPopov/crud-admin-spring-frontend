@@ -14,7 +14,7 @@ import FieldConfiguration from "../../fieldConfiguration";
 
 
 interface EntityListProps {
-    fields?: Array<FieldConfiguration>
+    fields: Array<GridColDef>
 }
 
 export const EntityList = ({fields}: EntityListProps) => {
@@ -30,21 +30,21 @@ export const EntityList = ({fields}: EntityListProps) => {
         },
     });
 
-    let rows= [];
-    fields?.forEach((field: FieldConfiguration) => {
-        rows.push(
-            {
-                field: field.fieldName,
-                headerName: field.headerName ?? field.fieldName,
-                type: field.type,
-                minWidth: field.minWidth ?? 50,
-                flex: field.flex ?? 0,
-            }
-        )
-    })
+    // let rows= [];
+    // fields?.forEach((field: FieldConfiguration) => {
+    //     rows.push(
+    //         {
+    //             field: field.field,
+    //             headerName: field.headerName ?? field.field,
+    //             type: field.type,
+    //             minWidth: field.minWidth ?? 50,
+    //             flex: field.flex ?? 0,
+    //         }
+    //     )
+    // })
 
     const columns = React.useMemo<GridColDef[]>(
-        () => rows,
+        () => fields,
         [categoryData],
     );
 
