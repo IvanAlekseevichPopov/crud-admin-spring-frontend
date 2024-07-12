@@ -1,85 +1,38 @@
-import {
-    Refine,
-    GitHubBanner,
-    WelcomePage,
-    Authenticated,
-} from '@refinedev/core';
+import {Authenticated, GitHubBanner, Refine, ResourceProps, WelcomePage} from '@refinedev/core';
 import {DevtoolsPanel, DevtoolsProvider} from "@refinedev/devtools";
 import {RefineKbar, RefineKbarProvider} from "@refinedev/kbar";
 
-import {
-    AuthPage, DeleteButton, EditButton, ErrorComponent
-    , notificationProvider
-    , RefineSnackbarProvider, ShowButton
-    , ThemedLayoutV2
-} from '@refinedev/mui';
+import {ErrorComponent, notificationProvider, RefineSnackbarProvider, ThemedLayoutV2} from '@refinedev/mui';
 
 import dataProvider from "@refinedev/simple-rest";
 import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
-import {BrowserRouter, Route, Routes, Outlet} from "react-router-dom";
+import {BrowserRouter, Outlet, Route, Routes} from "react-router-dom";
 import routerBindings, {
-    NavigateToResource,
     CatchAllNavigate,
-    UnsavedChangesNotifier,
-    DocumentTitleHandler
+    DocumentTitleHandler,
+    NavigateToResource,
+    UnsavedChangesNotifier
 } from "@refinedev/react-router-v6";
-import {BlogPostList, BlogPostCreate, BlogPostEdit, BlogPostShow} from "./pages/blog-posts";
 import {EntityList} from "./pages/entity/list";
-import {CategoryList, CategoryCreate, CategoryEdit, CategoryShow} from "./pages/categories";
 import {ColorModeContextProvider} from "./contexts/color-mode";
-import {Header} from "./components/header";
+import {Header} from "./components";
 import {Login} from "./pages/login";
 import {Register} from "./pages/register";
 import {ForgotPassword} from "./pages/forgotPassword";
 import {authProvider} from "./authProvider";
-import React, {ReactNode} from "react";
-import AppConfig from "./appConfig"
 import Entity from "./entity"
-import {ResourceProps} from "@refinedev/core/src/contexts/resource/types";
+import {ReactNode} from "react";
+import {EntityEdit} from "./pages/entity/edit";
 
 function App({config}) {
     // console.log(config);
     const entities = config.entities;
     // console.log(entities);
 
-    let catList: object[] = [
-        {
-            field: "id",
-            headerName: "ID",
-            type: "number",
-            minWidth: 50,
-        },
-        {
-            field: "title",
-            flex: 1,
-            headerName: "Title",
-            minWidth: 200,
-        },
-        {
-            field: "actions",
-            headerName: "Actions",
-            sortable: false,
-            renderCell: function render({row}) {
-                return (
-                    <>
-                        <EditButton hideText recordItemId={row.id}/>
-                        <ShowButton hideText recordItemId={row.id}/>
-                        <DeleteButton hideText recordItemId={row.id}/>
-                    </>
-                );
-            },
-            align: "center",
-            headerAlign: "center",
-            minWidth: 80,
-        },
-    ];
-
     let resources: Array<ResourceProps> = [];
-    let routes: Array<ReactNode> = [];
+    let routes: Array<ReactNode>  = [];
     entities.forEach((entity: Entity, i: number) => {
-        console.log(entity.order, entity.name);
-
         resources.push({
             name: entity.path,
             list: "/" + entity.path,
@@ -90,16 +43,27 @@ function App({config}) {
                 canDelete: true,
             },
         });
+        let editRoute: ReactNode;
+        if(entity.editFieldsConfiguration != undefined && entity.editFieldsConfiguration.length != 0) {
+            console.log("not empty")
+            console.log(entity.editFieldsConfiguration);
+            editRoute = <Route path="edit/:id" element={<EntityEdit fieldsConfiguration={entity.editFieldsConfiguration}/>}/>
+        } else {
+            console.log("empty");
+        }
 
         routes.push(
             <Route key={"item-"+ i} path={"/" + entity.path}>
-                <Route index element={<EntityList fields={entity.fieldsConfiguration}/>}/>
-                {/*<Route path="create" element={<BlogPostCreate/>}/>*/}
+                <Route index element={<EntityList fields={entity.listFieldsConfiguration}/>}/>
+                {editRoute}
+                {/*<Route path="create" element={<EntCreate/>}/>*/}
                 {/*<Route path="edit/:id" element={<BlogPostEdit/>}/>*/}
                 {/*<Route path="show/:id" element={<BlogPostShow/>}/>*/}
             </Route>
         );
     })
+
+    console.log(routes);
 
     let schemaResponse = {
         baseUrl: "https://api.fake-rest.refine.dev",
@@ -110,17 +74,9 @@ function App({config}) {
             warnWhenUnsavedChanges: true,
             useNewQueryKeys: true,
             projectId: "n0XM4g-TMwVLK-RYjUD0",
-
         }
 
     }
-
-
-    // for (let i in entities) {
-    //      let res = entities[i];
-    //      console.log(schemaResponse.resources[i]); // prints elements: 10, 20, 30, 40
-    //
-    // }
 
     return (
         <BrowserRouter>
@@ -202,6 +158,6 @@ function App({config}) {
             </RefineKbarProvider>
         </BrowserRouter>
     );
-};
+}
 
 export default App;

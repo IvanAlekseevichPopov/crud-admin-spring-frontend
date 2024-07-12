@@ -1,20 +1,12 @@
 import {DataGrid, type GridColDef} from "@mui/x-data-grid";
 import {useMany} from "@refinedev/core";
-import {
-    DateField,
-    DeleteButton,
-    EditButton,
-    List,
-    MarkdownField,
-    ShowButton,
-    useDataGrid,
-} from "@refinedev/mui";
+import {DeleteButton, EditButton, List, ShowButton, useDataGrid,} from "@refinedev/mui";
 import React from "react";
-import FieldConfiguration from "../../fieldConfiguration";
+import ListFieldConfiguration from "../../listFieldConfiguration";
 
 
 interface EntityListProps {
-    fields: Array<GridColDef>
+    fields: Array<ListFieldConfiguration>
 }
 
 export const EntityList = ({fields}: EntityListProps) => {
@@ -30,21 +22,40 @@ export const EntityList = ({fields}: EntityListProps) => {
         },
     });
 
-    // let rows= [];
-    // fields?.forEach((field: FieldConfiguration) => {
-    //     rows.push(
-    //         {
-    //             field: field.field,
-    //             headerName: field.headerName ?? field.field,
-    //             type: field.type,
-    //             minWidth: field.minWidth ?? 50,
-    //             flex: field.flex ?? 0,
-    //         }
-    //     )
-    // })
+    let rows: GridColDef[] = [];
+    fields.forEach((field: ListFieldConfiguration) => {
+        rows.push(
+            {
+                field: field.field,
+                headerName: field.headerName ?? field.field,
+                type: field.type,
+                minWidth: field.minWidth ?? 50,
+                flex: field.flex ?? 0,
+            }
+        )
+    })
+    rows.push(
+        {
+            field: "actions",
+            headerName: "Actions",
+            sortable: false,
+            renderCell: function render({row}) {
+                return (
+                    <>
+                        <EditButton hideText recordItemId={row.id}/>
+                        <ShowButton hideText recordItemId={row.id}/>
+                        <DeleteButton hideText recordItemId={row.id}/>
+                    </>
+                );
+            },
+            align: "center",
+            headerAlign: "center",
+            minWidth: 80,
+        }
+    )
 
     const columns = React.useMemo<GridColDef[]>(
-        () => fields,
+        () => rows,
         [categoryData],
     );
 

@@ -1,8 +1,10 @@
-import FieldConfiguration from "./fieldConfiguration"
+import ListFieldConfiguration from "./listFieldConfiguration"
+import EditFieldConfiguration from "./editFieldConfiguration"
 
 export default interface Entity {
     order: number,
     name: string
     path: string
-    fieldsConfiguration: Array<FieldConfiguration>
+    listFieldsConfiguration: Array<ListFieldConfiguration>
+    editFieldsConfiguration?: Array<EditFieldConfiguration>
 }

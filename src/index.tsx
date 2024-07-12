@@ -20,7 +20,7 @@ cfg = {
             order: 1,
             name: "user",
             path: "users",
-            fieldsConfiguration: [
+            listFieldsConfiguration: [
                 {
                     field: "id",
                     headerName: "ID",
@@ -32,20 +32,40 @@ cfg = {
                     headerName: "First name",
                     type: "string",
                     minWidth: 200,
-                    // flex: 1
+                }
+            ],
+            editFieldsConfiguration: [
+                {
+                    fieldName: "firstName",
+                    label: "First name",
+                    type: "text",
+                    // headerName: "First name",
+                    // type: "string",
+                    // minWidth: 200,
+                },
+                {
+                    fieldName: "lastName",
+                    label: "Last Name",
+                    type: "text"
+                    // headerName: "First name",
+                    // type: "string",
+                    // minWidth: 200,
                 }
             ]
         },
         {
             order: 2,
             name: "not-orm-example-entity",
-            path: "blog-posts",
-            fieldsConfiguration: [
+            path: "blog_posts",
+            listFieldsConfiguration: [
                 {
                     field: "id",
+                    headerName: "ID",
                     type: "number",
-                }
-            ]
+                    minWidth: 50,
+                },
+            ],
+            editFieldsConfiguration: []
         }
     ]
 }

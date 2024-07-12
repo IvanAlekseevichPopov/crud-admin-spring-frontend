@@ -1,4 +1,4 @@
-export default interface FieldConfiguration {
+export default interface ListFieldConfiguration {
     field: string,
     headerName?: string
     type: string //TODO enum?
