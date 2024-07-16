@@ -5,4 +5,5 @@ export default interface AppConfig {
     test2?: string,
     entities: Array<Entity>
     apiUrl: string
+    pathPrefix?: string
 }

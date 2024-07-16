@@ -40,10 +40,10 @@ function App({config}: AppProps) {
     entities.forEach((entity: Entity, i: number) => {
         resources.push({
             name: entity.name,
-            list: "/" + entity.name,
-            create: "/" + entity.name + "/create",
-            edit: "/" + entity.name + "/edit/:id",
-            show: "/" + entity.name + "/show/:id",
+            list: config.pathPrefix + "/" + entity.name,
+            create: config.pathPrefix + "/admin/" + entity.name + "/create",
+            edit: config.pathPrefix + "/admin/" + entity.name + "/edit/:id",
+            show: config.pathPrefix + "/admin/" + entity.name + "/show/:id",
             meta: {
                 canDelete: true,
             },
@@ -58,7 +58,7 @@ function App({config}: AppProps) {
         }
 
         routes.push(
-            <Route key={"item-"+ i} path={"/" + entity.name}>
+            <Route key={"item-"+ i} path={config.pathPrefix + "/" + entity.name}>
                 <Route index element={<EntityList fields={entity.listFieldsConfiguration}/>}/>
                 {editRoute}
                 {/*<Route path="create" element={<EntCreate/>}/>*/}
