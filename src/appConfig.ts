@@ -4,4 +4,5 @@ export default interface AppConfig {
     test?: string,
     test2?: string,
     entities: Array<Entity>
+    apiUrl: string
 }

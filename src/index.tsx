@@ -16,6 +16,7 @@ cfg = {
     test: document.sonataAdminSpring?.test ?? "defaultConfigTest1",
     test2: document.sonataAdminSpring?.test2 ?? "defaultConfigTest2",
     entities: document.sonataAdminSpring.entities,
+    apiUrl: document.sonataAdminSpring.apiUrl,
 }
 
 root.render(

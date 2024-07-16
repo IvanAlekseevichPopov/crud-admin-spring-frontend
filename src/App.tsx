@@ -71,7 +71,7 @@ function App({config}: AppProps) {
     console.log(routes);
 
     let schemaResponse = {
-        baseUrl: "https://api.fake-rest.refine.dev",
+        baseUrl: config.apiUrl,
         loginPath: "/login",
         resources: resources,
         options: {
