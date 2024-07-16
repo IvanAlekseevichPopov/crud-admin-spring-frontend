@@ -26,8 +26,8 @@ export const EntityList = ({fields}: EntityListProps) => {
     fields.forEach((field: ListFieldConfiguration) => {
         rows.push(
             {
-                field: field.field,
-                headerName: field.headerName ?? field.field,
+                field: field.fieldName,
+                headerName: field.headerName ?? field.fieldName,
                 type: field.type,
                 minWidth: field.minWidth ?? 50,
                 flex: field.flex ?? 0,

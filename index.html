@@ -26,7 +26,25 @@
     </head>
     <script>
         document.sonataAdminSpring = {
-            "test": "test1"
+            "test": "testJava",
+            "apiUrl": "http://localhost:8080/admin/api",
+            "entities": [{
+                "name": "users",
+                "listFieldsConfiguration": [{
+                    "fieldName": "id",
+                    "headerName": "id",
+                    "type": "string"
+                }, {
+                    "fieldName": "firstName",
+                    "headerName": "firstName",
+                    "type": "string"
+                }],
+                "editFieldsConfiguration": [{
+                    "fieldName": "firstName",
+                    "label": "firstName",
+                    "type": "string"
+                }]
+            }]
         };
     </script>
     <body>

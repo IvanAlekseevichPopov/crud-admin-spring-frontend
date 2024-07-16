@@ -24,8 +24,13 @@ import {authProvider} from "./authProvider";
 import Entity from "./entity"
 import {ReactNode} from "react";
 import {EntityEdit} from "./pages/entity/edit";
+import AppConfig from "./appConfig";
 
-function App({config}) {
+interface AppProps {
+    config: AppConfig
+}
+
+function App({config}: AppProps) {
     // console.log(config);
     const entities = config.entities;
     // console.log(entities);
@@ -34,11 +39,11 @@ function App({config}) {
     let routes: Array<ReactNode>  = [];
     entities.forEach((entity: Entity, i: number) => {
         resources.push({
-            name: entity.path,
-            list: "/" + entity.path,
-            create: "/" + entity.path + "/create",
-            edit: "/" + entity.path + "/edit/:id",
-            show: "/" + entity.path + "/show/:id",
+            name: entity.name,
+            list: "/" + entity.name,
+            create: "/" + entity.name + "/create",
+            edit: "/" + entity.name + "/edit/:id",
+            show: "/" + entity.name + "/show/:id",
             meta: {
                 canDelete: true,
             },
@@ -53,7 +58,7 @@ function App({config}) {
         }
 
         routes.push(
-            <Route key={"item-"+ i} path={"/" + entity.path}>
+            <Route key={"item-"+ i} path={"/" + entity.name}>
                 <Route index element={<EntityList fields={entity.listFieldsConfiguration}/>}/>
                 {editRoute}
                 {/*<Route path="create" element={<EntCreate/>}/>*/}

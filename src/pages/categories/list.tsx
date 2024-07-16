@@ -8,12 +8,12 @@ import {
 } from "@refinedev/mui";
 import React from "react";
 
-export const CategoryList = ({fields}) => {
+export const CategoryList = () => {
     const { dataGridProps } = useDataGrid({
     });
 
     const columns = React.useMemo<GridColDef[]>(
-        () => fields,
+        () => [],
         [],
     );
 
