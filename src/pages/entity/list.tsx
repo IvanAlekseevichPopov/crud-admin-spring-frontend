@@ -14,13 +14,13 @@ export const EntityList = ({fields}: EntityListProps) => {
         syncWithLocation: true,
     });
 
-    const {data: categoryData, isLoading: categoryIsLoading} = useMany({
-        resource: "categories",
-        ids: dataGridProps?.rows?.map((item: any) => item?.category?.id).filter(Boolean) ?? [],
-        queryOptions: {
-            enabled: !!dataGridProps?.rows,
-        },
-    });
+    // const {data: categoryData, isLoading: categoryIsLoading} = useMany({
+    //     resource: "categories",
+    //     ids: dataGridProps?.rows?.map((item: any) => item?.category?.id).filter(Boolean) ?? [],
+    //     queryOptions: {
+    //         enabled: !!dataGridProps?.rows,
+    //     },
+    // });
 
     let rows: GridColDef[] = [];
     fields.forEach((field: ListFieldConfiguration) => {
@@ -30,7 +30,7 @@ export const EntityList = ({fields}: EntityListProps) => {
                 headerName: field.headerName ?? field.fieldName,
                 type: field.type,
                 minWidth: field.minWidth ?? 50,
-                flex: field.flex ?? 0,
+                flex: field.flex ?? 1,
             }
         )
     })
@@ -56,7 +56,8 @@ export const EntityList = ({fields}: EntityListProps) => {
 
     const columns = React.useMemo<GridColDef[]>(
         () => rows,
-        [categoryData],
+        []
+        // [categoryData],
     );
 
     return (

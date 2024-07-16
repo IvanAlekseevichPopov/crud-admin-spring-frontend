@@ -18,10 +18,10 @@ export const EntityEdit = ({fieldsConfiguration}: EntityEditProps) => {
 
     const blogPostsData = queryResult?.data?.data;
 
-    const {autocompleteProps: categoryAutocompleteProps} = useAutocomplete({
-        resource: "categories",
-        defaultValue: blogPostsData?.category?.id,
-    });
+    // const {autocompleteProps: categoryAutocompleteProps} = useAutocomplete({
+    //     resource: "categories",
+    //     defaultValue: blogPostsData?.category?.id,
+    // });
 
     let renderedFields: Array<ReactNode> = [];
     fieldsConfiguration?.forEach((fieldConfiguration: EditFieldConfiguration) => {

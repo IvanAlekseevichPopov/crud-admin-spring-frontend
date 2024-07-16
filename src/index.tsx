@@ -22,8 +22,6 @@ cfg = {
 
 root.render(
         <React.StrictMode>
-            
                 <App config={cfg}/>
-            
     </React.StrictMode>
 );

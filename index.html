@@ -26,26 +26,41 @@
     </head>
     <script>
         document.sonataAdminSpring = {
-            "pathPrefix": "/admin",
-            "test": "testJava",
-            "apiUrl": "http://localhost:8080/admin/api",
-            "entities": [{
-                "name": "users",
-                "listFieldsConfiguration": [{
-                    "fieldName": "id",
-                    "headerName": "id",
-                    "type": "string"
+            "apiUrl" : "http://localhost:8080/admin/api",
+            "pathPrefix" : "/admin",
+            "entities" : [ {
+                "name" : "users",
+                "listFieldsConfiguration" : [ {
+                    "fieldName" : "id",
+                    "headerName" : "id",
+                    "type" : "string"
                 }, {
-                    "fieldName": "firstName",
-                    "headerName": "firstName",
-                    "type": "string"
-                }],
-                "editFieldsConfiguration": [{
-                    "fieldName": "firstName",
-                    "label": "firstName",
-                    "type": "string"
-                }]
-            }]
+                    "fieldName" : "firstName",
+                    "headerName" : "firstName",
+                    "type" : "string"
+                }, {
+                    "fieldName" : "lastName",
+                    "headerName" : "lastName",
+                    "type" : "string"
+                }, {
+                    "fieldName" : "nickName",
+                    "headerName" : "nickName",
+                    "type" : "string"
+                } ],
+                "editFieldsConfiguration" : [ {
+                    "fieldName" : "firstName",
+                    "label" : "firstName",
+                    "type" : "string"
+                }, {
+                    "fieldName" : "lastName",
+                    "label" : "lastName",
+                    "type" : "string"
+                }, {
+                    "fieldName" : "nickName",
+                    "label" : "nickName",
+                    "type" : "string"
+                } ]
+            } ]
         };
     </script>
     <body>

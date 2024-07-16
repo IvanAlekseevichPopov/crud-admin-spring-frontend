@@ -41,9 +41,9 @@ function App({config}: AppProps) {
         resources.push({
             name: entity.name,
             list: config.pathPrefix + "/" + entity.name,
-            create: config.pathPrefix + "/admin/" + entity.name + "/create",
-            edit: config.pathPrefix + "/admin/" + entity.name + "/edit/:id",
-            show: config.pathPrefix + "/admin/" + entity.name + "/show/:id",
+            create: config.pathPrefix + "/" + entity.name + "/create",
+            edit: config.pathPrefix + "/" + entity.name + "/edit/:id",
+            show: config.pathPrefix + "/" + entity.name + "/show/:id",
             meta: {
                 canDelete: true,
             },
@@ -62,7 +62,6 @@ function App({config}: AppProps) {
                 <Route index element={<EntityList fields={entity.listFieldsConfiguration}/>}/>
                 {editRoute}
                 {/*<Route path="create" element={<EntCreate/>}/>*/}
-                {/*<Route path="edit/:id" element={<BlogPostEdit/>}/>*/}
                 {/*<Route path="show/:id" element={<BlogPostShow/>}/>*/}
             </Route>
         );
