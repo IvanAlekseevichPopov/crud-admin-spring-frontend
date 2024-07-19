@@ -17,6 +17,8 @@ cfg = {
     test2: document.sonataAdminSpring?.test2 ?? "defaultConfigTest2",
     entities: document.sonataAdminSpring.entities,
     apiUrl: document.sonataAdminSpring.apiUrl,
+    loginUrl: document.sonataAdminSpring.loginUrl,
+    authCheckUrl: document.sonataAdminSpring.authCheckUrl,
     pathPrefix: document.sonataAdminSpring.pathPrefix ?? ""
 }
 

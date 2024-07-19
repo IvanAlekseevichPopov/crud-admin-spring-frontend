@@ -50,11 +50,11 @@ function App({config}: AppProps) {
         });
         let editRoute: ReactNode;
         if(entity.editFieldsConfiguration != undefined && entity.editFieldsConfiguration.length != 0) {
-            console.log("not empty")
-            console.log(entity.editFieldsConfiguration);
+            // console.log("not empty")
+            // console.log(entity.editFieldsConfiguration);
             editRoute = <Route path="edit/:id" element={<EntityEdit fieldsConfiguration={entity.editFieldsConfiguration}/>}/>
         } else {
-            console.log("empty");
+            // console.log("empty");
         }
 
         routes.push(
@@ -66,8 +66,6 @@ function App({config}: AppProps) {
             </Route>
         );
     })
-
-    console.log(routes);
 
     let schemaResponse = {
         baseUrl: config.apiUrl,
@@ -94,7 +92,7 @@ function App({config}: AppProps) {
                             <Refine dataProvider={dataProvider(schemaResponse.baseUrl)}
                                     notificationProvider={notificationProvider}
                                     routerProvider={routerBindings}
-                                    authProvider={authProvider}
+                                    authProvider={authProvider(config.loginUrl, config.authCheckUrl)}
                                     resources={schemaResponse.resources}
                                     options={schemaResponse.options}
                             >
@@ -105,7 +103,8 @@ function App({config}: AppProps) {
                                             <Authenticated
                                                 key="authenticated-inner"
                                                 fallback={<CatchAllNavigate to={schemaResponse.loginPath}/>}
-                                            >WelcomePage
+                                            >
+                                                WelcomePage
                                                 <ThemedLayoutV2
                                                     Header={() => <Header sticky/>}
                                                 >
