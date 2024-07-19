@@ -69,7 +69,7 @@ function App({config}: AppProps) {
 
     let schemaResponse = {
         baseUrl: config.apiUrl,
-        loginPath: "/login",
+        loginPath: config.pathPrefix + "/login",
         resources: resources,
         options: {
             syncWithLocation: true,
@@ -92,7 +92,7 @@ function App({config}: AppProps) {
                             <Refine dataProvider={dataProvider(schemaResponse.baseUrl)}
                                     notificationProvider={notificationProvider}
                                     routerProvider={routerBindings}
-                                    authProvider={authProvider(config.loginUrl, config.authCheckUrl)}
+                                    authProvider={authProvider(schemaResponse.loginPath, config.apiLoginPath, config.apiAuthCheckPath)}
                                     resources={schemaResponse.resources}
                                     options={schemaResponse.options}
                             >
@@ -113,7 +113,7 @@ function App({config}: AppProps) {
                                             </Authenticated>
                                         }
                                     >
-                                        <Route key="start-page" index element={<WelcomePage/>}/>
+                                        <Route key="start-page" path={config.pathPrefix} index element={<WelcomePage/>}/>
                                         {routes}
                                         {/*<Route index element={*/}
                                         {/*    <NavigateToResource resource="blog_posts"/>*/}
@@ -141,9 +141,9 @@ function App({config}: AppProps) {
                                             </Authenticated>
                                         }
                                     >
-                                        <Route path="/login" element={<Login/>}/>
-                                        <Route path="/register" element={<Register/>}/>
-                                        <Route path="/forgot-password" element={<ForgotPassword/>}/>
+                                        <Route path={schemaResponse.loginPath} element={<Login/>}/>
+                                        {/*<Route path="/register" element={<Register/>}/>*/}
+                                        {/*<Route path="/forgot-password" element={<ForgotPassword/>}/>*/}
                                     </Route>
                                 </Routes>
 

@@ -1,14 +1,14 @@
 import type { AuthProvider } from "@refinedev/core";
 import axios, { AxiosInstance } from "axios";
 
-export const authProvider = (loginUrl: string, authCheckUrl: string): AuthProvider  => {
+export const authProvider = (adminLoginPath: string, apiLoginPath: string, apiAuthCheckPath: string): AuthProvider  => {
     const httpClient: AxiosInstance = axios.create();
     return ({
         login: async ({username, email, password}) => {
             if ((username || email) && password) {
                 try {
                     await httpClient.post(
-                        loginUrl, //TODO from config
+                        apiLoginPath, //TODO from config
                         {
                             "username": username || email,
                             "password": password
@@ -23,7 +23,7 @@ export const authProvider = (loginUrl: string, authCheckUrl: string): AuthProvid
                     console.error(e);
                     return {
                         success: true,
-                        redirectTo: "/login",
+                        redirectTo: adminLoginPath,
                     };
                 }
 
@@ -42,20 +42,20 @@ export const authProvider = (loginUrl: string, authCheckUrl: string): AuthProvid
             // localStorage.removeItem(TOKEN_KEY);
             return {
                 success: true,
-                redirectTo: "/login",
+                redirectTo: adminLoginPath,
             };
         },
         check: async () => {
             try {
                 const {data} = await httpClient.get(
-                    authCheckUrl,
+                    apiAuthCheckPath,
                 );
             } catch (e: any) {
                 console.error(e);
                 if (axios.isAxiosError(e)) {
                     return {
                         authenticated: false,
-                        redirectTo: "/login",
+                        redirectTo: adminLoginPath,
                     };
                 }
 
